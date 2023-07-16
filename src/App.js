@@ -19,6 +19,8 @@ const App = () => {
   const [headDirection, setHeadDirection] = useState("");
   const [countdown, setCountdown] = useState(3);
   const [lineTouchCount, setLineTouchCount] = useState(0);
+  const [userInput, setUserInput] = useState("");
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     runPosenet();
@@ -97,6 +99,9 @@ const App = () => {
 
   const incrementBurpeeCount = () => {
     setBurpeeCount((count) => count + 1);
+    setTimeout(() => {
+      setLineTouchCount(0);
+    }, 1000);
   };
 
   const updateHeadDirection = (pose) => {
@@ -202,6 +207,18 @@ const App = () => {
       videoWidth - 10,
       videoHeight + 60
     );
+
+    // Display rankings
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "right";
+    users.forEach((user, index) => {
+      ctx.fillText(
+        `${index + 1}. ${user.name}: ${user.burpeeCount}`,
+        videoWidth - 10,
+        videoHeight + 120 + (index + 1) * 30
+      );
+    });
   };
 
   const formatTime = (time) => {
@@ -211,6 +228,15 @@ const App = () => {
     return `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
       .padStart(2, "0")}`;
+  };
+
+  const saveUser = () => {
+    const newUser = {
+      name: userInput,
+      burpeeCount: burpeeCount,
+    };
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+    setUserInput("");
   };
 
   return (
@@ -265,6 +291,13 @@ const App = () => {
               <p>Burpees Per Minute: {burpeesPerMinute}</p>
               <p>Burpees Per Hour: {burpeesPerHour}</p>
               <p>Head Direction: {headDirection}</p>
+              <input
+                type="text"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder="Enter your name"
+              />
+              <button onClick={saveUser}>Save</button>
             </React.Fragment>
           )}
         </div>
