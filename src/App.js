@@ -82,8 +82,8 @@ const App = () => {
   };
 
   const isHeadTouchingLine = (position, videoHeight) => {
-    const linePosition = Math.floor(videoHeight * 0.3); // Adjust the position as needed
-    const tolerance = 10; // Adjust the tolerance as needed
+    const linePosition = Math.floor(videoHeight * 0.3); 
+    const tolerance = 10; 
 
     return (
       position.y >= linePosition - tolerance && position.y <= linePosition + tolerance
@@ -163,7 +163,7 @@ const App = () => {
     canvasRef.current.height = videoHeight;
 
     // Draw reference line
-    const referenceLineY = Math.floor(videoHeight * 0.3); // Adjust the position as needed
+    const referenceLineY = Math.floor(videoHeight * 0.3); 
     ctx.beginPath();
     ctx.moveTo(0, referenceLineY);
     ctx.lineTo(videoWidth, referenceLineY);
